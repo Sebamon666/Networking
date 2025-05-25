@@ -108,6 +108,9 @@ tabla_donatarias = nodos_validos[nodos_validos['tipo'] == 'Donataria'].copy()
 tabla_donatarias['pagerank'] = tabla_donatarias['id'].map(pagerank_scores).fillna(0)
 tabla_donatarias = tabla_donatarias[['label', 'pagerank']].sort_values(by='pagerank', ascending=False).head(15)
 
+# === Crear tablas resumen ===
+tabla_donantes = df_tabla_donantes.head(15).fillna('')
+tabla_donatarias = df_tabla_donatarias.head(15).fillna('')
 # === App ===
 app = dash.Dash(__name__)
 app.layout = html.Div([
