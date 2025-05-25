@@ -104,8 +104,9 @@ G.add_weighted_edges_from([(row['source'], row['target'], row['weight']) for _, 
 pagerank_scores = nx.pagerank(G, weight='weight')
 
 tabla_donatarias = nodos_validos[nodos_validos['tipo'] == 'Donataria'].copy()
-tabla_donatarias['pagerank'] = tabla_donatarias['id'].map(pagerank_scores).fillna(0).round(2)
+tabla_donatarias['pagerank'] = tabla_donatarias['id'].map(pagerank_scores).fillna(0)
 tabla_donatarias = tabla_donatarias[['label', 'pagerank']].sort_values(by='pagerank', ascending=False).head(15)
+tabla_donatarias['pagerank'] = tabla_donatarias['pagerank'].round(6)
 
 # === App ===
 app = dash.Dash(__name__)
@@ -139,21 +140,25 @@ app.layout = html.Div([
         ]),
         dcc.Tab(label='📊 Tablas resumen', children=[
             html.Div([
-                html.H4("Top 15 Donantes por Grado"),
-                dash_table.DataTable(
-                    data=tabla_donantes.to_dict('records'),
-                    columns=[{'name': i, 'id': i} for i in tabla_donantes.columns],
-                    style_table={'width': 'fit-content', 'overflowX': 'auto'},
-                    style_cell={'textAlign': 'left', 'padding': '5px', 'width': 'auto', 'maxWidth': '200px', 'whiteSpace': 'normal'}
-                ),
-                html.H4("Top 15 Donatarias por PageRank", style={'marginTop': '30px'}),
-                dash_table.DataTable(
-                    data=tabla_donatarias.to_dict('records'),
-                    columns=[{'name': i, 'id': i} for i in tabla_donatarias.columns],
-                    style_table={'width': 'fit-content', 'overflowX': 'auto'},
-                    style_cell={'textAlign': 'left', 'padding': '5px', 'width': 'auto', 'maxWidth': '200px', 'whiteSpace': 'normal'}
-                )
-            ], style={'padding': '20px'})
+                html.Div([
+                    html.H4("Top 15 Donantes por Grado"),
+                    dash_table.DataTable(
+                        data=tabla_donantes.to_dict('records'),
+                        columns=[{'name': i, 'id': i} for i in tabla_donantes.columns],
+                        style_table={'width': 'fit-content', 'overflowX': 'auto'},
+                        style_cell={'textAlign': 'left', 'padding': '5px', 'width': 'auto', 'maxWidth': '200px', 'whiteSpace': 'normal'}
+                    )
+                ], style={'marginRight': '40px'}),
+                html.Div([
+                    html.H4("Top 15 Donatarias por PageRank"),
+                    dash_table.DataTable(
+                        data=tabla_donatarias.to_dict('records'),
+                        columns=[{'name': i, 'id': i} for i in tabla_donatarias.columns],
+                        style_table={'width': 'fit-content', 'overflowX': 'auto'},
+                        style_cell={'textAlign': 'left', 'padding': '5px', 'width': 'auto', 'maxWidth': '200px', 'whiteSpace': 'normal'}
+                    )
+                ])
+            ], style={'display': 'flex', 'padding': '20px'})
         ])
     ])
 ])
