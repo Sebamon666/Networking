@@ -1,7 +1,6 @@
 import dash
-from dash import html, dcc, Input, Output
+from dash import html, dcc, Input, Output, dash_table
 import dash_cytoscape as cyto
-import dash_table
 import pandas as pd
 import networkx as nx
 
@@ -70,7 +69,7 @@ for _, row in nodos_validos.iterrows():
     size = max(40, min(100, row['monto_donado'] / 5e5))
     if row['tipo'] == 'Donante':
         size = max(30, min(80, row['monto_donado'] / 1e6))
-        label = f"{row['label']}\\n${int(row['monto_donado'])}"
+        label = f"{row['label']}\n${int(row['monto_donado'])}"
     else:
         label = row['label']
 
@@ -108,20 +107,6 @@ tabla_donatarias = nodos_validos[nodos_validos['tipo'] == 'Donataria'].copy()
 tabla_donatarias['pagerank'] = tabla_donatarias['id'].map(pagerank_scores).fillna(0)
 tabla_donatarias = tabla_donatarias[['label', 'pagerank']].sort_values(by='pagerank', ascending=False).head(15)
 
-# === Generar tablas base ===
-df_tabla_donantes = df_rel.groupby('Id de la organización financiera') \
-    .agg({'Fondos concedidos': 'sum'}) \
-    .rename(columns={'Fondos concedidos': 'Monto total'}) \
-    .reset_index()
-
-df_tabla_donatarias = df_rel.groupby('Ids OSC') \
-    .agg({'Fondos concedidos': 'sum'}) \
-    .rename(columns={'Fondos concedidos': 'Monto total'}) \
-    .reset_index()
-
-# === Crear tablas resumen ===
-tabla_donantes = df_tabla_donantes.head(15).fillna('')
-tabla_donatarias = df_tabla_donatarias.head(15).fillna('')
 # === App ===
 app = dash.Dash(__name__)
 app.layout = html.Div([
