@@ -144,7 +144,7 @@ app.layout = html.Div([
                 layout={'name': 'cose'},
                 style={'width': '100vw', 'height': '90vh'},
                 stylesheet=[
-                    {'selector': 'node', 'style': {'label': 'data(label)', 'color': 'white', 'text-valign': 'center', 'text-halign': 'center', 'font-size': 8}},
+                    {'selector': 'node', 'style': {'label': 'data(label)', 'color': 'black', 'text-valign': 'center', 'text-halign': 'center', 'font-size': 8}},
                     {'selector': '.donante', 'style': {'background-color': '#0074D9'}},
                     {'selector': '.donataria', 'style': {'background-color': '#FF4136'}},
                     {'selector': '.destacada', 'style': {'background-color': '#B10DC9'}},
