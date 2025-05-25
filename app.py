@@ -134,7 +134,7 @@ app.layout = html.Div([
                     {'selector': '.donante', 'style': {'background-color': '#0074D9'}},
                     {'selector': '.donataria', 'style': {'background-color': '#FF4136'}},
                     {'selector': '.destacada', 'style': {'background-color': '#B10DC9'}},
-                    {'selector': 'edge', 'style': {'curve-style': 'bezier', 'target-arrow-shape': 'triangle', 'width': 'mapData(weight, 100000, 10000000, 1, 10)', 'line-color': '#ccc', 'target-arrow-color': '#ccc'}}
+                    {'selector': 'edge', 'style': {'curve-style': 'bezier', 'target-arrow-shape': 'triangle','width': 'mapData(weight, 100000, 10000000, 0.5, 3)', 'line-color': '#ccc', 'target-arrow-color': '#ccc'}}
                 ]
             )
         ]),
