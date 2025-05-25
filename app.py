@@ -108,6 +108,17 @@ tabla_donatarias = nodos_validos[nodos_validos['tipo'] == 'Donataria'].copy()
 tabla_donatarias['pagerank'] = tabla_donatarias['id'].map(pagerank_scores).fillna(0)
 tabla_donatarias = tabla_donatarias[['label', 'pagerank']].sort_values(by='pagerank', ascending=False).head(15)
 
+# === Generar tablas base ===
+df_tabla_donantes = df_rel.groupby('Id de la organización financiera') \
+    .agg({'Fondos concedidos': 'sum'}) \
+    .rename(columns={'Fondos concedidos': 'Monto total'}) \
+    .reset_index()
+
+df_tabla_donatarias = df_rel.groupby('Ids OSC') \
+    .agg({'Fondos concedidos': 'sum'}) \
+    .rename(columns={'Fondos concedidos': 'Monto total'}) \
+    .reset_index()
+
 # === Crear tablas resumen ===
 tabla_donantes = df_tabla_donantes.head(15).fillna('')
 tabla_donatarias = df_tabla_donatarias.head(15).fillna('')
